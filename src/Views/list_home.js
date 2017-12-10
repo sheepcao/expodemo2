@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, ActivityIndicator,Button,StyleSheet } from "react-native";
+import { View,Dimensions,WebView, Text, FlatList, ActivityIndicator,Button,StyleSheet } from "react-native";
 import { List, ListItem, SearchBar,Icon } from "react-native-elements";
 import { StackNavigator } from 'react-navigation';
 
 import colors from 'HSColors';
+
+const deviceH = Dimensions.get('window').height
+
 
 // const ListsHome = ({ navigation, banner }) => (
 //   <FlatListDemo Navi= {() => navigation.navigate('Lists_Detail')} banner={banner} />
@@ -22,6 +25,7 @@ const list = [
   }
 ];
 
+var DEFAULT_URL = 'http://cgx.nwpu.info/demo/map.php';
 
 class TicketList extends Component {
 
@@ -122,43 +126,85 @@ class TicketList extends Component {
 
   render() {
     return (
-      <View>
-      <View style={styles.headerContainer}>
-        <Icon color="white" name="invert-colors" size={62} />
-        <Text style={styles.heading}>测试工单</Text>
-      </View>
-      <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0}}>
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <ListItem
-              roundAvatar = {false}
-              title={item.title}
-              titleStyle = {{fontSize: 15}}
-              titleNumberOfLines = {2}
-              subtitle={'委托单位: '+item.clientName}
-              subtitleStyle = {{fontSize:13}}
-              rightTitle={item.status}
-              rightTitleStyle={{color:'orange'}}
-              rightTitleContainerStyle={{flex: 0.5,alignItems: 'flex-end',marginLeft:0}}
-              // avatar={{ uri: item.picture.thumbnail }}
-              containerStyle={{ borderBottomWidth: 0 }}
-              onPress={() => this.props.navigation.navigate('Lists_Detail',{ item: item,headerTitle:'123'} )}
+
+      // <View style={{backgroundColor:'yellow',flex:1}}>
+      //      <Text>123123213123123</Text>
+      //      <WebView
+      //        source={{uri: 'http://www.baidu.com'}}
+      //        startInLoadingState={true}
+      //        domStorageEnabled={true}
+      //        javaScriptEnabled={true}
+      //        onLoad={(e) => console.log('onLoad')}
+      //        onLoadEnd={(e) => console.log('onLoadEnd')}
+      //        onLoadStart={(e) => console.log('onLoadStart')}
+      //        renderError={() => {
+      //                    console.log('renderError')
+      //                    return <View><Text>renderError回调了，出现错误</Text></View>
+      //                }}
+      //        renderLoading={() => {
+      //                    return <View style = {{justifyContent:'center',alignItems:'center'}}><Text>Loading...</Text></View>
+      //                }}
+      //        >
+      //     </WebView>
+      // </View>
+
+
+      <View style = {{flex:1}}>
+        <View >
+          <View style={styles.headerContainer}>
+            <Icon color="white" name="invert-colors" size={22} />
+            <Text style={styles.heading}>工单列表</Text>
+          </View>
+          <List   containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0,marginTop:1,height:135}}>
+            <FlatList
+              data={this.state.data}
+              renderItem={({ item }) => (
+                <ListItem
+                  roundAvatar = {false}
+                  title={item.title}
+                  titleStyle = {{fontSize: 15}}
+                  titleNumberOfLines = {2}
+                  subtitle={'委托单位: '+item.clientName}
+                  subtitleStyle = {{fontSize:13}}
+                  rightTitle={item.status}
+                  rightTitleStyle={{color:'orange'}}
+                  rightTitleContainerStyle={{flex: 0.5,alignItems: 'flex-end',marginLeft:0}}
+                  // avatar={{ uri: item.picture.thumbnail }}
+                  containerStyle={{ borderBottomWidth: 0 }}
+                  onPress={() => this.props.navigation.navigate('Lists_Detail',{ item: item,headerTitle:'123'} )}
+                />
+              )}
+              keyExtractor={(item,index)=> index}
+              ItemSeparatorComponent={this.renderSeparator}
+              ListHeaderComponent={this.renderHeader}
+              ListFooterComponent={this.renderFooter}
+              // onRefresh={this.handleRefresh}
+              refreshing={this.state.refreshing}
+              // onEndReached={this.handleLoadMore}
+              onEndReachedThreshold={50}
             />
-          )}
-          keyExtractor={(item,index)=> index}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListHeaderComponent={this.renderHeader}
-          ListFooterComponent={this.renderFooter}
-          // onRefresh={this.handleRefresh}
-          refreshing={this.state.refreshing}
-          // onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={50}
-
-
-        />
-       </List>
-     </View>
+          </List>
+        </View>
+        <View style={{flex:1,marginTop:3}}>
+          <WebView
+             source={{uri: DEFAULT_URL}}
+             startInLoadingState={true}
+             domStorageEnabled={true}
+             javaScriptEnabled={true}
+             onLoad={(e) => console.log('onLoad')}
+             onLoadEnd={(e) => console.log('onLoadEnd')}
+             onLoadStart={(e) => console.log('onLoadStart')}
+             renderError={() => {
+                         console.log('renderError')
+                         return <View><Text>renderError回调了，出现错误</Text></View>
+                     }}
+             renderLoading={() => {
+                         return <View style = {{justifyContent:'center',alignItems:'center'}}><Text>Loading...</Text></View>
+                     }}
+             >
+          </WebView>
+        </View>
+      </View>
     );
   }
 }
@@ -169,13 +215,13 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 40,
+    padding: 5,
     backgroundColor: colors.secondary,
   },
   heading: {
     color: 'white',
-    marginTop: 10,
-    fontSize: 22,
+    marginTop: 5,
+    fontSize: 19,
   },
 });
 export default TicketList;

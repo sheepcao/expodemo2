@@ -21,7 +21,7 @@ const ListsStack = StackNavigator({
     screen: ListsHome,
     path: '/',
     navigationOptions: () => ({
-      title: '首页',
+      title: '测试工单',
     }),
   },
   Lists_Detail: {

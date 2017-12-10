@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "expodemo2",
+    "name": "expodemo3",
     "description": "An empty new project",
     "slug": "expodemo2",
     "privacy": "public",
-    "sdkVersion": "14.0.0",
+    "sdkVersion": "18.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
